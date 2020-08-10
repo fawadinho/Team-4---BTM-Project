@@ -1,0 +1,126 @@
+<body class="bg-light">
+  <div class="container">
+    <div class="py-5 text-center">
+      <h2>Save Requestor Order </h2>
+      <p class="lead">
+        Please Enter the Information Below to Save Requestor Order
+      </p>
+    </div>
+    <div class="row">
+      <div class="col-md-4 order-md-2 mb-4">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-muted">Your Profile</span>
+        </h4>
+        <ul class="list-group mb-3">
+          <li class="list-group-item d-flex justify-content-between lh-condensed">
+        <div>
+              <img src="../../../assets/fawad-saadatlogo.png" />
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-md-8 order-md-1">
+        <h1>Compile Order Form</h1>
+
+        <form #form="ngForm" autocomplete="off" *ngIf="service.formData" (submit)="onSubmit(form)">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Requestor</label>
+                <select name="requestorID" #RequestorID="ngModel" [(ngModel)]="service.formData.RequestorID"
+                  class="form-control" [class.is-invalid]="
+                    !isValid && service.formData.RequestorID == 0
+                  ">
+                  <option value="0">Select</option>
+                  <option *ngFor="let requestor of requestorList" value="{{ requestor.RequestorID }}">
+                    {{ requestor.Name }}</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+
+                <th>
+                  <a class="btn btn-sm btn-success text-white"
+                    (click)="AddOrderProduct(null, service.formData.RequestorOrderID)"><i class="fa fa-plus"></i> Add Product
+                  </a>
+                </th>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Total</label>
+                <input mvndrMatCurrencyFormat [currencyCode]="'USD'" name="Total" #Total="ngModel"
+                  [(ngModel)]="service.formData.Total" class="form-control" readonly />
+              </div>
+
+
+            </div>
+          </div>
+
+          <table class="table table-borderless">
+            <thead class="thead-light">
+              <th>Product</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+
+            </thead>
+            <tbody>
+              <tr *ngIf="service.RequestorOrderProducts.length == 0" [class.text-danger]="
+                  !isValid && service.formData.RequestorID == 0
+                ">
+                <td class="font-italic text-center" colspan="5">
+                  No Product Selected
+                </td>
+              </tr>
+
+              <tr *ngFor="let product of service.RequestorOrderProducts; let i = index">
+                <td>{{ product.Name }}</td>
+                <td>{{ product.Price | currency }}</td>
+                <td>{{ product.Quantity }}</td>
+                <td>{{ product.Total | currency }}</td>
+                <td>
+                  <!--      <a
+                    class="btn btn-sm btn-info text-white"
+                    (click)="
+                      AddOrderProduct(null, service.formData.OrderID)
+                    "
+                    ><i class="fa fa-edit"></i
+                  ></a>
+
+                  -->
+                  <a class="btn btn-sm btn-danger text-white ml-1" (click)="
+                      DeleteOrderProduct(
+                        product.RequestorOrderProductID,
+                        service.formData.RequestorID
+                      )
+                    "><i class="fa fa-trash"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form group">
+            <button type="submit" class="btn btn-warning">
+              <i class="fa fa-database"></i> Save Order
+            </button>
+
+            <a class="btn btn-outline-dark ml-1" routerLink="/orders"><i class="fa fa-table"></i> View Requestor Orders</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <br><br><br><br><br><br><br><br><br><br><br><br>
+<div class="card text-center">
+
+  <div class="card-body">
+
+    <p class="card-text">Created by TEAM 04 - BTM 495</p>
+    <a href="" class="btn btn-primary">TEAM 04 - BTM 495</a>
+  </div>
+
+</div>
+
+</body>
